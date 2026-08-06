@@ -4,8 +4,10 @@ project(untitled)
 add_subdirectory(vendor/SDL)
 
 add_executable(untitled WIN32
+        include/gameobjects/camera.h
         include/game.h
 
+        src/gameobjects/camera.cpp
         src/game.cpp
         src/main.cpp
 )
