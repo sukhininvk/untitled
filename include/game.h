@@ -3,7 +3,7 @@
 
 #include <SDL3/SDL.h>
 
-namespace Game
+namespace Untitled
 {
     class Game
     {

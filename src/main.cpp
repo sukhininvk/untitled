@@ -7,6 +7,6 @@ int main(int argc, char* argv[])
     (void)argc;
     (void)argv;
 
-    Game::Application app;
-    return app.Run();
+    Untitled::Game game;
+    return game.Run();
 }

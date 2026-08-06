@@ -3,7 +3,7 @@
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_timer.h>
 
-namespace Game
+namespace Untitled
 {
     Game::~Game()
     {
@@ -42,10 +42,8 @@ namespace Game
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL: %s", SDL_GetError());
             return false;
         }
-        SDL_SetJoystickEventsEnabled(true);
-        SDL_SetGamepadEventsEnabled(true);
 
-        m_window = SDL_CreateWindow("untitled", 640, 480, 0);
+        m_window = SDL_CreateWindow("Orbit", 720, 540, 0);
         if (!m_window)
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
@@ -58,6 +56,7 @@ namespace Game
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer: %s", SDL_GetError());
             return false;
         }
+        SDL_SetRenderLogicalPresentation(m_renderer, 360, 270, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
         m_running = true;
         return true;
