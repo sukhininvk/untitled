@@ -9,7 +9,6 @@ namespace Untitled
     {
     public:
         void SetPosition(float x, float y);
-        void SetZoom(float zoom);
 
         float GetX() const;
         float GetY() const;
@@ -21,7 +20,6 @@ namespace Untitled
     private:
         float m_x = 0.0f;
         float m_y = 0.0f;
-        float m_zoom = 1.0f;
     };
 }
 

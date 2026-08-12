@@ -1,18 +1,18 @@
-#ifndef UNTITLED_GAME_H
-#define UNTITLED_GAME_H
+#ifndef UNTITLED_APPLICATION_H
+#define UNTITLED_APPLICATION_H
 
 #include <SDL3/SDL.h>
 
 namespace Untitled
 {
-    class Game
+    class Application
     {
     public:
-        Game() = default;
-        ~Game();
+        Application() = default;
+        ~Application();
 
-        Game(const Game&) = delete;
-        Game& operator=(const Game&) = delete;
+        Application(const Application&) = delete;
+        Application& operator=(const Application&) = delete;
 
         int Run();
 

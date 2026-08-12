@@ -1,16 +1,16 @@
-#include "game.h"
+#include "application.h"
 
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_timer.h>
 
 namespace Untitled
 {
-    Game::~Game()
+    Application::~Application()
     {
         Shutdown();
     }
 
-    int Game::Run()
+    int Application::Run()
     {
         if (!Initialize())
         {
@@ -35,7 +35,7 @@ namespace Untitled
         return 0;
     }
 
-    bool Game::Initialize()
+    bool Application::Initialize()
     {
         if (!SDL_Init(SDL_INIT_VIDEO))
         {
@@ -43,7 +43,7 @@ namespace Untitled
             return false;
         }
 
-        m_window = SDL_CreateWindow("Orbit", 720, 540, 0);
+        m_window = SDL_CreateWindow("untitled", 1920, 1080, SDL_WINDOW_FULLSCREEN);
         if (!m_window)
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
@@ -56,13 +56,12 @@ namespace Untitled
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer: %s", SDL_GetError());
             return false;
         }
-        SDL_SetRenderLogicalPresentation(m_renderer, 360, 270, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
         m_running = true;
         return true;
     }
 
-    void Game::Shutdown()
+    void Application::Shutdown()
     {
         if (m_renderer)
         {
@@ -74,7 +73,7 @@ namespace Untitled
         SDL_Quit();
     }
 
-    void Game::ProcessEvents()
+    void Application::ProcessEvents()
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -86,12 +85,12 @@ namespace Untitled
         }
     }
 
-    void Game::Update(float deltaTime)
+    void Application::Update(float deltaTime)
     {
         (void)deltaTime;
     }
 
-    void Game::Render()
+    void Application::Render()
     {
         SDL_RenderClear(m_renderer);
         SDL_RenderPresent(m_renderer);
