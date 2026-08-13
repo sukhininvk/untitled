@@ -14,7 +14,6 @@ namespace Untitled
     {
         if (!Initialize())
         {
-            Shutdown();
             return 1;
         }
 
@@ -31,7 +30,6 @@ namespace Untitled
             Render();
         }
 
-        Shutdown();
         return 0;
     }
 
@@ -69,8 +67,14 @@ namespace Untitled
             m_renderer = nullptr;
         }
 
-        SDL_DestroyWindow(m_window);
+        if (m_window)
+        {
+            SDL_DestroyWindow(m_window);
+            m_window = nullptr;
+        }
+
         SDL_Quit();
+        m_running = false;
     }
 
     void Application::ProcessEvents()
