@@ -1,4 +1,6 @@
 #include "application.h"
+#include "preferences.h"
+#include "appinfo.h"
 
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_timer.h>
@@ -41,12 +43,25 @@ namespace Untitled
             return false;
         }
 
-        m_window = SDL_CreateWindow("untitled", 1920, 1080, SDL_WINDOW_FULLSCREEN);
+        SDL_PropertiesID windowProps = SDL_CreateProperties();
+        if (!windowProps)
+        {
+            SDL_Log("Failed to create properties: %s", SDL_GetError());
+            return false;
+        }
+
+        SDL_SetStringProperty(windowProps, SDL_PROP_WINDOW_CREATE_TITLE_STRING, WINDOW_TITLE);
+        SDL_SetNumberProperty(windowProps, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, 2560);
+        SDL_SetNumberProperty(windowProps, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, 1440);
+
+        m_window = SDL_CreateWindowWithProperties(windowProps);
         if (!m_window)
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
             return false;
         }
+
+        SDL_DestroyProperties(windowProps);
 
         m_renderer = SDL_CreateRenderer(m_window, nullptr);
         if (!m_renderer)
@@ -54,7 +69,7 @@ namespace Untitled
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer: %s", SDL_GetError());
             return false;
         }
-
+        
         m_running = true;
         return true;
     }
