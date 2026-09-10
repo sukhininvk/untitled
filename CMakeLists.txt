@@ -4,9 +4,14 @@ project(untitled)
 add_subdirectory(vendor/SDL)
 
 add_executable(untitled WIN32
+        include/appinfo.h
         include/application.h
+        include/paths.h
+        include/preferences.h
 
+        src/preferences.cpp
         src/application.cpp
+
         src/main.cpp
 )
 

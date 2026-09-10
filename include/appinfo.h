@@ -5,7 +5,7 @@ namespace Untitled
 {
 	inline constexpr const char* ORG_NAME = "sukhininvk";
 	inline constexpr const char* APP_NAME = "untitled";
-	inline constexpr const char* WINDOW_TITLE = "Untitled";
+	inline constexpr const char* WINDOW_TITLE = "untitled";
 }	
 
 #endif

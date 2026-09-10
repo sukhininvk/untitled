@@ -1,6 +1,8 @@
 #ifndef UNTITLED_APPLICATION_H
 #define UNTITLED_APPLICATION_H
 
+#include "preferences.h"
+
 #include <SDL3/SDL.h>
 
 namespace Untitled
@@ -26,6 +28,8 @@ namespace Untitled
         bool m_running = true;
         SDL_Window* m_window = nullptr;
         SDL_Renderer* m_renderer = nullptr;
+
+		Preferences m_preferences;
     };
 }
 

@@ -1,24 +1,31 @@
 #include "preferences.h"
 
+#include <SDL3/SDL.h>
+#include <nlohmann/json.hpp>
+
 namespace Untitled
 {
-	Preferences::Preferences()
-	{
-		// Initialize default preferences here
-	}
-
-	Preferences::~Preferences()
-	{
-		// Clean up resources if needed
-	}
-
-	void Preferences::Load()
+	bool Preferences::load()
 	{
 		// Load preferences from a file or other source
+		return true;
 	}
 
-	void Preferences::Save()
+	bool Preferences::save() const
 	{
-		// Save preferences to a file or other destination
+		// Save preferences to a file
+		return true;
+	}
+
+	void Preferences::setDefaults()
+	{
+		const SDL_DisplayID display = SDL_GetPrimaryDisplay();
+		const SDL_DisplayMode* mode = SDL_GetDesktopDisplayMode(display);
+
+		if (mode)
+		{
+			displayPreferences.displayWidth = mode->w;
+			displayPreferences.displayHeight = mode->h;
+		}
 	}
 }
