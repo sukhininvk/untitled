@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(untitled)
 
+add_subdirectory(vendor/json)
 add_subdirectory(vendor/SDL)
 
 add_executable(untitled WIN32
