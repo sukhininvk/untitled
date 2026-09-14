@@ -46,14 +46,25 @@ namespace Untitled
         SDL_PropertiesID windowProps = SDL_CreateProperties();
         if (!windowProps)
         {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create properties: %s", SDL_GetError());
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window properties: %s", SDL_GetError());
             return false;
         }
 
 		// Apply display preferences to the window properties
         SDL_SetStringProperty(windowProps, SDL_PROP_WINDOW_CREATE_TITLE_STRING, WINDOW_TITLE);
         SDL_SetNumberProperty(windowProps, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, m_preferences.displayPreferences.displayWidth);
-        SDL_SetNumberProperty(windowProps, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, m_preferences.displayPreferences.displayHeight);
+        SDL_SetNumberProperty(windowProps , SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, m_preferences.displayPreferences.displayHeight);
+
+        switch (m_preferences.displayPreferences.displayMode)
+        {
+        case 1:
+            SDL_SetBooleanProperty(windowProps, SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN, true);
+            break;
+
+        case 2:
+            SDL_SetBooleanProperty(windowProps, SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN, true);
+            break;
+        }
 
         m_window = SDL_CreateWindowWithProperties(windowProps);
         if (!m_window)
@@ -61,15 +72,36 @@ namespace Untitled
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
             return false;
         }
-
         SDL_DestroyProperties(windowProps);
 
-        m_renderer = SDL_CreateRenderer(m_window, nullptr);
+        SDL_PropertiesID rendererProps = SDL_CreateProperties();
+        if (!rendererProps)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer properties: %s", SDL_GetError());
+            return false;
+        }
+
+		// Set the window pointer property for the renderer
+        SDL_SetPointerProperty(rendererProps, SDL_PROP_RENDERER_CREATE_WINDOW_POINTER, m_window);
+
+        // Apply display preferences to the renderer properties
+        switch (m_preferences.displayPreferences.vsync)
+        {
+        case 1:
+            SDL_SetNumberProperty(rendererProps, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER, 1);
+            break;
+        case 2:
+            SDL_SetNumberProperty(rendererProps, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER, -1);
+            break;
+        }
+
+        m_renderer = SDL_CreateRendererWithProperties(rendererProps);
         if (!m_renderer)
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer: %s", SDL_GetError());
             return false;
         }
+        SDL_DestroyProperties(rendererProps);
         
         m_running = true;
         return true;

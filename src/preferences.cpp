@@ -27,5 +27,13 @@ namespace Untitled
 			displayPreferences.displayWidth = mode->w;
 			displayPreferences.displayHeight = mode->h;
 		}
+
+		displayPreferences.displayMode = 2;
+		displayPreferences.vsync = 1;
+	}
+
+	void Preferences::checkValid()
+	{
+		
 	}
 }
