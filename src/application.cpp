@@ -19,13 +19,17 @@ namespace Untitled
             return 1;
         }
 
-        Uint64 previousTicks = SDL_GetTicks();
+        Uint64 previousCounter = SDL_GetPerformanceCounter();
 
         while (m_running)
         {
-            const Uint64 currentTicks = SDL_GetTicks();
-            const float deltaTime = static_cast<float>(currentTicks - previousTicks) / 1000.0f;
-            previousTicks = currentTicks;
+            Uint64 currentCounter = SDL_GetPerformanceCounter();
+
+            double deltaTime =
+                static_cast<double>(currentCounter - previousCounter) /
+                static_cast<double>(SDL_GetPerformanceFrequency());
+
+            previousCounter = currentCounter;
 
             ProcessEvents();
             Update(deltaTime);
