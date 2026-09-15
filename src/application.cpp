@@ -7,148 +7,148 @@
 
 namespace Untitled
 {
-    Application::~Application()
-    {
-        Shutdown();
-    }
+	Application::~Application()
+	{
+		Shutdown();
+	}
 
-    int Application::Run()
-    {
-        if (!Initialize())
-        {
-            return 1;
-        }
+	int Application::Run()
+	{
+		if (!Initialize())
+		{
+			return 1;
+		}
 
-        Uint64 previousCounter = SDL_GetPerformanceCounter();
+		Uint64 previous_counter = SDL_GetPerformanceCounter();
 
-        while (m_running)
-        {
-            Uint64 currentCounter = SDL_GetPerformanceCounter();
+		while (is_running)
+		{
+			Uint64 current_counter = SDL_GetPerformanceCounter();
 
-            double deltaTime =
-                static_cast<double>(currentCounter - previousCounter) /
-                static_cast<double>(SDL_GetPerformanceFrequency());
+			double delta_time =
+				static_cast<double>(current_counter - previous_counter) /
+				static_cast<double>(SDL_GetPerformanceFrequency());
 
-            previousCounter = currentCounter;
+			previous_counter = current_counter;
 
-            ProcessEvents();
-            Update(deltaTime);
-            Render();
-        }
+			ProcessEvents();
+			Update(delta_time);
+			Render();
+		}
 
-        return 0;
-    }
+		return 0;
+	}
 
-    bool Application::Initialize()
-    {
-        if (!SDL_Init(SDL_INIT_VIDEO))
-        {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL: %s", SDL_GetError());
-            return false;
-        }
+	bool Application::Initialize()
+	{
+		if (!SDL_Init(SDL_INIT_VIDEO))
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL: %s", SDL_GetError());
+			return false;
+		}
 
-        SDL_PropertiesID windowProps = SDL_CreateProperties();
-        if (!windowProps)
-        {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window properties: %s", SDL_GetError());
-            return false;
-        }
+		SDL_PropertiesID window_properties = SDL_CreateProperties();
+		if (!window_properties)
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window properties: %s", SDL_GetError());
+			return false;
+		}
 
 		// Apply display preferences to the window properties
-        SDL_SetStringProperty(windowProps, SDL_PROP_WINDOW_CREATE_TITLE_STRING, WINDOW_TITLE);
-        SDL_SetNumberProperty(windowProps, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, m_preferences.displayPreferences.displayWidth);
-        SDL_SetNumberProperty(windowProps , SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, m_preferences.displayPreferences.displayHeight);
+		SDL_SetStringProperty(window_properties, SDL_PROP_WINDOW_CREATE_TITLE_STRING, WINDOW_TITLE);
+		SDL_SetNumberProperty(window_properties, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, preferences.display.width);
+		SDL_SetNumberProperty(window_properties, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, preferences.display.height);
 
-        switch (m_preferences.displayPreferences.displayMode)
-        {
-        case 1:
-            SDL_SetBooleanProperty(windowProps, SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN, true);
-            break;
+		switch (preferences.display.mode)
+		{
+		case 1:
+			SDL_SetBooleanProperty(window_properties, SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN, true);
+			break;
 
-        case 2:
-            SDL_SetBooleanProperty(windowProps, SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN, true);
-            break;
-        }
+		case 2:
+			SDL_SetBooleanProperty(window_properties, SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN, true);
+			break;
+		}
 
-        m_window = SDL_CreateWindowWithProperties(windowProps);
-        if (!m_window)
-        {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
-            return false;
-        }
-        SDL_DestroyProperties(windowProps);
+		main_window = SDL_CreateWindowWithProperties(window_properties);
+		if (!main_window)
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
+			return false;
+		}
+		SDL_DestroyProperties(window_properties);
 
-        SDL_PropertiesID rendererProps = SDL_CreateProperties();
-        if (!rendererProps)
-        {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer properties: %s", SDL_GetError());
-            return false;
-        }
+		SDL_PropertiesID renderer_properties = SDL_CreateProperties();
+		if (!renderer_properties)
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer properties: %s", SDL_GetError());
+			return false;
+		}
 
 		// Set the window pointer property for the renderer
-        SDL_SetPointerProperty(rendererProps, SDL_PROP_RENDERER_CREATE_WINDOW_POINTER, m_window);
+		SDL_SetPointerProperty(renderer_properties, SDL_PROP_RENDERER_CREATE_WINDOW_POINTER, main_window);
 
-        // Apply display preferences to the renderer properties
-        switch (m_preferences.displayPreferences.vsync)
-        {
-        case 1:
-            SDL_SetNumberProperty(rendererProps, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER, 1);
-            break;
-        case 2:
-            SDL_SetNumberProperty(rendererProps, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER, -1);
-            break;
-        }
+		// Apply display preferences to the renderer properties
+		switch (preferences.display.vsync)
+		{
+		case 1:
+			SDL_SetNumberProperty(renderer_properties, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER, 1);
+			break;
+		case 2:
+			SDL_SetNumberProperty(renderer_properties, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER, -1);
+			break;
+		}
 
-        m_renderer = SDL_CreateRendererWithProperties(rendererProps);
-        if (!m_renderer)
-        {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer: %s", SDL_GetError());
-            return false;
-        }
-        SDL_DestroyProperties(rendererProps);
-        
-        m_running = true;
-        return true;
-    }
+		main_renderer = SDL_CreateRendererWithProperties(renderer_properties);
+		if (!main_renderer)
+		{
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create renderer: %s", SDL_GetError());
+			return false;
+		}
+		SDL_DestroyProperties(renderer_properties);
+		
+		is_running = true;
+		return true;
+	}
 
-    void Application::Shutdown()
-    {
-        if (m_renderer)
-        {
-            SDL_DestroyRenderer(m_renderer);
-            m_renderer = nullptr;
-        }
+	void Application::Shutdown()
+	{
+		if (main_renderer)
+		{
+			SDL_DestroyRenderer(main_renderer);
+			main_renderer = nullptr;
+		}
 
-        if (m_window)
-        {
-            SDL_DestroyWindow(m_window);
-            m_window = nullptr;
-        }
+		if (main_window)
+		{
+			SDL_DestroyWindow(main_window);
+			main_window = nullptr;
+		}
 
-        SDL_Quit();
-        m_running = false;
-    }
+		SDL_Quit();
+		is_running = false;
+	}
 
-    void Application::ProcessEvents()
-    {
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_EVENT_QUIT)
-            {
-                m_running = false;
-            }
-        }
-    }
+	void Application::ProcessEvents()
+	{
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			if (event.type == SDL_EVENT_QUIT)
+			{
+				is_running = false;
+			}
+		}
+	}
 
-    void Application::Update(float deltaTime)
-    {
-        (void)deltaTime;
-    }
+	void Application::Update(double delta_time)
+	{
+		(void)delta_time;
+	}
 
-    void Application::Render()
-    {
-        SDL_RenderClear(m_renderer);
-        SDL_RenderPresent(m_renderer);
-    }
+	void Application::Render()
+	{
+		SDL_RenderClear(main_renderer);
+		SDL_RenderPresent(main_renderer);
+	}
 }

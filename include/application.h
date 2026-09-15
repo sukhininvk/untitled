@@ -7,30 +7,30 @@
 
 namespace Untitled
 {
-    class Application
-    {
-    public:
-        Application() = default;
-        ~Application();
+	class Application
+	{
+	public:
+		Application() = default;
+		~Application();
 
-        Application(const Application&) = delete;
-        Application& operator=(const Application&) = delete;
+		Application(const Application&) = delete;
+		Application& operator=(const Application&) = delete;
 
-        int Run();
+		int Run();
 
-    private:
-        bool Initialize();
-        void Shutdown();
-        void ProcessEvents();
-        static void Update(float deltaTime);
-        void Render();
+	private:
+		bool Initialize();
+		void Shutdown();
+		void ProcessEvents();
+		static void Update(double delta_time);
+		void Render();
 
-        bool m_running = true;
-        SDL_Window* m_window = nullptr;
-        SDL_Renderer* m_renderer = nullptr;
+		bool is_running = true;
+		SDL_Window* main_window = nullptr;
+		SDL_Renderer* main_renderer = nullptr;
 
-		Preferences m_preferences;
-    };
+		Preferences preferences;
+	};
 }
 
 #endif

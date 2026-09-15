@@ -5,34 +5,34 @@
 
 namespace Untitled
 {
-	bool Preferences::load()
+	bool Preferences::Load()
 	{
 		// Load preferences from a file or other source
 		return true;
 	}
 
-	bool Preferences::save() const
+	bool Preferences::Save() const
 	{
 		// Save preferences to a file
 		return true;
 	}
 
-	void Preferences::setDefaults()
+	void Preferences::SetDefaults()
 	{
-		const SDL_DisplayID display = SDL_GetPrimaryDisplay();
-		const SDL_DisplayMode* mode = SDL_GetDesktopDisplayMode(display);
+		const SDL_DisplayID display_id = SDL_GetPrimaryDisplay();
+		const SDL_DisplayMode* desktop_mode = SDL_GetDesktopDisplayMode(display_id);
 
-		if (mode)
+		if (desktop_mode)
 		{
-			displayPreferences.displayWidth = mode->w;
-			displayPreferences.displayHeight = mode->h;
+			display.width = desktop_mode->w;
+			display.height = desktop_mode->h;
 		}
 
-		displayPreferences.displayMode = 2;
-		displayPreferences.vsync = 1;
+		display.mode = 2;
+		display.vsync = 1;
 	}
 
-	void Preferences::checkValid()
+	void Preferences::CheckValid()
 	{
 		
 	}
