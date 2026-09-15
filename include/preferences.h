@@ -14,13 +14,12 @@ namespace Untitled
 
 	class Preferences
 	{
-	public:
 		bool Load();
 		bool Save() const;
 		void SetDefaults();
 		void CheckValid();
 
-		DisplayPreferences display;
+		DisplayPreferences display;	
 	};
 }
 

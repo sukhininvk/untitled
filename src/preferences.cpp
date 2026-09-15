@@ -1,7 +1,6 @@
 #include "preferences.h"
 
 #include <SDL3/SDL.h>
-#include <nlohmann/json.hpp>
 
 namespace Untitled
 {
