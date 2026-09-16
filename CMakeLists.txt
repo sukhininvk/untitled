@@ -9,9 +9,13 @@ add_executable(untitled WIN32
         include/application.h
         include/paths.h
         include/preferences.h
+        include/renderer.h
+        include/window.h
 
-        src/preferences.cpp
         src/application.cpp
+        src/preferences.cpp
+        src/renderer.cpp
+        src/window.cpp
 
         src/main.cpp
 )

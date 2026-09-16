@@ -7,8 +7,7 @@
 
 namespace Untitled
 {
-	inline constexpr const char* APPDATA_PATH = SDL_GetPrefPath(ORG_NAME, APP_NAME);
-	inline constexpr const char* BASE_PATH = SDL_GetBasePath();
+	const char* APPDATA_PATH = SDL_GetPrefPath(ORG_NAME, APP_NAME);
 }
 
 #endif

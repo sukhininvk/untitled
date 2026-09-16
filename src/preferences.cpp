@@ -1,18 +1,50 @@
+#include "paths.h"
 #include "preferences.h"
 
 #include <SDL3/SDL.h>
+#include <nlohmann/json.hpp>
+#include <fstream>
 
 namespace Untitled
 {
 	bool Preferences::Load()
 	{
-		// Load preferences from a file or other source
+		/*
+		if (!APPDATA_PATH)
+			return false;
+
+		std::string file_path = std::string(APPDATA_PATH) + "preferences.json";
+
+		std::ifstream file(file_path);
+
+		if (!file)
+			return false;
+
+		nlohmann::json j;
+		file >> j;
+
+		j.get_to(*this);
+		*/
 		return true;
 	}
 
 	bool Preferences::Save() const
 	{
-		// Save preferences to a file
+		/*
+		if (!APPDATA_PATH)
+			return false;
+
+		std::string file_path = std::string(APPDATA_PATH) + "preferences.json";
+
+		std::ofstream file(file_path);
+
+		if (!file)
+			return false;
+
+		nlohmann::json j = *this;
+
+		file << j.dump(4);
+		*/
 		return true;
 	}
 
@@ -26,13 +58,20 @@ namespace Untitled
 			display.width = desktop_mode->w;
 			display.height = desktop_mode->h;
 		}
-
-		display.mode = 2;
-		display.vsync = 1;
 	}
 
 	void Preferences::CheckValid()
 	{
 		
+	}
+
+	void to_json(nlohmann::json& j, const Preferences& p)
+	{
+
+	}
+
+	void from_json(const nlohmann::json& j, Preferences& p)
+	{
+
 	}
 }

@@ -12,7 +12,7 @@ namespace Untitled
 		int vsync = 1; // 0 = off, 1 = on, 2 = adaptive
 	};
 
-	class Preferences
+	struct Preferences
 	{
 		bool Load();
 		bool Save() const;

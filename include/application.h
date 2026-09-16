@@ -2,8 +2,8 @@
 #define UNTITLED_APPLICATION_H
 
 #include "preferences.h"
-
-#include <SDL3/SDL.h>
+#include "renderer.h"
+#include "window.h"
 
 namespace Untitled
 {
@@ -26,9 +26,9 @@ namespace Untitled
 		void Render();
 
 		bool is_running = true;
-		SDL_Window* main_window = nullptr;
-		SDL_Renderer* main_renderer = nullptr;
 
+		Window main_window;
+		Renderer main_renderer;
 		Preferences preferences;
 	};
 }
