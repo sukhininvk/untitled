@@ -27,11 +27,11 @@ namespace Untitled
 
 		switch (preferences.display.mode)
 		{
-		case 1:
+		case DisplayMode::Borderless:
 			SDL_SetBooleanProperty(window_properties, SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN, true);
 			break;
 
-		case 2:
+		case DisplayMode::Fullscreen:
 			SDL_SetBooleanProperty(window_properties, SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN, true);
 			break;
 		}

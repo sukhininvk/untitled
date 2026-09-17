@@ -3,13 +3,28 @@
 
 namespace Untitled
 {
+	enum class DisplayMode
+	{
+		Windowed,
+		Borderless,
+		Fullscreen
+	};
+
+	enum class VSyncMode
+	{
+		Off,
+		On,
+		Half,
+		Adaptive
+	};
+
 	struct DisplayPreferences
 	{
 		int width = 2160;
 		int height = 1440;
-		int mode = 0; // 0 = windowed, 1 = borderless, 2 = fullscreen
+		DisplayMode mode = DisplayMode::Windowed;
 		int max_fps = 0; // 0 = unlimited, otherwise specify the max framerate
-		int vsync = 1; // 0 = off, 1 = on, 2 = adaptive
+		VSyncMode vsync = VSyncMode::On;
 	};
 
 	struct Preferences

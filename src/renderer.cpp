@@ -24,10 +24,13 @@ namespace Untitled
 
 		switch (preferences.display.vsync)
 		{
-		case 1:
+		case VSyncMode::On:
 			SDL_SetNumberProperty(renderer_properties, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER, 1);
 			break;
-		case 2:
+		case VSyncMode::Half:
+			SDL_SetNumberProperty(renderer_properties, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER, 2);
+			break;
+		case VSyncMode::Adaptive:
 			SDL_SetNumberProperty(renderer_properties, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER, -1);
 			break;
 		}
