@@ -58,6 +58,9 @@ namespace Untitled
 			display.width = desktop_mode->w;
 			display.height = desktop_mode->h;
 		}
+
+		display.mode = DisplayMode::Fullscreen;
+		display.vsync = VSyncMode::On;
 	}
 
 	void Preferences::CheckValid()
