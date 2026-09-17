@@ -95,6 +95,7 @@ namespace Untitled
 	{
 		j.at("display").at("width").get_to(p.display.width);
 		j.at("display").at("height").get_to(p.display.height);
+		j.at("display").at("max_fps").get_to(p.display.max_fps);
 
 		int mode;
 		j.at("display").at("mode").get_to(mode);
