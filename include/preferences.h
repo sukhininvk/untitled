@@ -29,8 +29,9 @@ namespace Untitled
 		VSyncMode vsync = VSyncMode::On;
 	};
 
-	struct Preferences
+	class Preferences
 	{
+	public:
 		bool Load();
 		bool Save() const;
 		void SetDefaults();
