@@ -75,34 +75,41 @@ namespace Untitled
 		
 	}
 
+	void to_json(nlohmann::json& j, const DisplayPreferences& p)
+	{
+		j = {
+			{ "width", p.width },
+			{ "height", p.height },
+			{ "mode", static_cast<int>(p.mode) },
+			{ "max_fps", p.max_fps },
+			{ "vsync", static_cast<int>(p.vsync) }
+		};
+	}
+
+	void from_json(const nlohmann::json& j, DisplayPreferences& p)
+	{
+		j.at("width").get_to(p.width);
+		j.at("height").get_to(p.height);
+		j.at("max_fps").get_to(p.max_fps);
+
+		int mode;
+		j.at("mode").get_to(mode);
+		p.mode = static_cast<DisplayMode>(mode);
+
+		int vsync;
+		j.at("vsync").get_to(vsync);
+		p.vsync = static_cast<VSyncMode>(vsync);
+	}
+
 	void to_json(nlohmann::json& j, const Preferences& p)
 	{
 		j = {
-			{
-				"display",
-				{
-					{ "width", p.display.width },
-					{ "height", p.display.height },
-					{ "mode", static_cast<int>(p.display.mode) },
-					{ "max_fps", p.display.max_fps },
-					{ "vsync", static_cast<int>(p.display.vsync) }
-				}
-			}
+			{ "display", p.display }
 		};
 	}
 
 	void from_json(const nlohmann::json& j, Preferences& p)
 	{
-		j.at("display").at("width").get_to(p.display.width);
-		j.at("display").at("height").get_to(p.display.height);
-		j.at("display").at("max_fps").get_to(p.display.max_fps);
-
-		int mode;
-		j.at("display").at("mode").get_to(mode);
-		p.display.mode = static_cast<DisplayMode>(mode);
-
-		int vsync;
-		j.at("display").at("vsync").get_to(vsync);
-		p.display.vsync = static_cast<VSyncMode>(vsync);
+		j.at("display").get_to(p.display);
 	}
 }
