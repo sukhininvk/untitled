@@ -14,6 +14,9 @@ namespace Untitled
 		Renderer() = default;
 		~Renderer();
 
+		Renderer(const Renderer&) = delete;
+		Renderer& operator=(const Renderer&) = delete;
+
 		bool Create(SDL_Window* window, const Preferences& preferences);
 		void Destroy();
 

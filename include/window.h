@@ -14,6 +14,9 @@ namespace Untitled
 		Window() = default;
 		~Window();
 
+		Window(const Window&) = delete;
+		Window& operator=(const Window&) = delete;
+
 		bool Create(const Preferences& preferences);
 		void Destroy();
 
