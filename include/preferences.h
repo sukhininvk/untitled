@@ -1,6 +1,8 @@
 #ifndef UNTITLED_PREFERENCES_H
 #define UNTITLED_PREFERENCES_H
 
+#include <nlohmann/json.hpp>
+
 namespace Untitled
 {
 	enum class DisplayMode
@@ -36,6 +38,9 @@ namespace Untitled
 
 		DisplayPreferences display;	
 	};
+
+	void to_json(nlohmann::json& j, const Preferences& p);
+	void from_json(const nlohmann::json& j, Preferences& p);
 }
 
 #endif
