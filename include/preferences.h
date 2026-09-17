@@ -34,8 +34,6 @@ namespace Untitled
 	public:
 		bool Load();
 		bool Save() const;
-		void SetDefaults();
-		void CheckValid();
 
 		DisplayPreferences display;	
 	};

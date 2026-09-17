@@ -51,30 +51,6 @@ namespace Untitled
 		return file.good();
 	}
 
-	void Preferences::SetDefaults()
-	{
-		const SDL_DisplayID display_id = SDL_GetPrimaryDisplay();
-
-		if (display_id != 0)
-		{
-			const SDL_DisplayMode* desktop_mode = SDL_GetDesktopDisplayMode(display_id);
-
-			if (desktop_mode)
-			{
-				display.width = desktop_mode->w;
-				display.height = desktop_mode->h;
-			}
-		}
-
-		display.mode = DisplayMode::Fullscreen;
-		display.vsync = VSyncMode::On;
-	}
-
-	void Preferences::CheckValid()
-	{
-		
-	}
-
 	void to_json(nlohmann::json& j, const DisplayPreferences& p)
 	{
 		j = {
