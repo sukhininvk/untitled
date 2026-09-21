@@ -21,8 +21,8 @@ add_executable(untitled WIN32
 )
 
 target_compile_features(untitled PRIVATE cxx_std_20)
-target_link_libraries(untitled PRIVATE SDL3::SDL3)
-target_link_libraries(untitled PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(untitled PUBLIC SDL3::SDL3)
+target_link_libraries(untitled PUBLIC nlohmann_json::nlohmann_json)
 target_include_directories(untitled PUBLIC include)
 
 add_custom_command(TARGET untitled POST_BUILD
