@@ -8,6 +8,53 @@
 
 namespace Untitled
 {
+	Preferences::Preferences()
+	{
+		RegisterCategory(
+			"display",
+			[this]() { display.SetDefaults(); },
+			[this]() { display.CheckValid(); });
+
+		RegisterParameter("display", "width", display.width);
+		RegisterParameter("display", "height", display.height);
+		RegisterParameter("display", "mode", display.mode);
+		RegisterParameter("display", "max_fps", display.max_fps);
+		RegisterParameter("display", "vsync", display.vsync);
+	}
+
+	bool Preferences::RegisterCategory(
+		const std::string& name,
+		std::function<void()> set_defaults,
+		std::function<void()> check_valid)
+	{
+		if (name.empty() || sections.contains(name))
+			return false;
+
+		Section section;
+		section.set_defaults = std::move(set_defaults);
+		section.check_valid = std::move(check_valid);
+		sections.emplace(name, std::move(section));
+
+		return true;
+	}
+
+	bool Preferences::RegisterParameter(const std::string& category, const std::string& name, Parameter parameter)
+	{
+		if (category.empty() || name.empty())
+			return false;
+
+		auto category_it = sections.find(category);
+		if (category_it == sections.end())
+			return false;
+
+		Section& section = category_it->second;
+		if (section.uses_whole_object_serialization || section.parameters.contains(name))
+			return false;
+
+		section.parameters.emplace(name, std::move(parameter));
+		return true;
+	}
+
 	bool Preferences::Load()
 	{
 		if (!APPDATA_PATH)
@@ -29,7 +76,22 @@ namespace Untitled
 				if (!json.contains(name))
 					continue;
 
-				section.from_json(json[name]);
+				const nlohmann::json& section_json = json[name];
+
+				if (section.uses_whole_object_serialization)
+				{
+					section.from_json(section_json);
+					continue;
+				}
+
+				if (!section_json.is_object())
+					return false;
+
+				for (auto& [parameter_name, parameter] : section.parameters)
+				{
+					if (section_json.contains(parameter_name))
+						parameter.from_json(section_json[parameter_name]);
+				}
 			}
 		}
 		catch (const nlohmann::json::exception&)
@@ -59,7 +121,22 @@ namespace Untitled
 		for (const auto& [name, section] : sections)
 		{
 			nlohmann::json section_json;
-			section.to_json(section_json);
+
+			if (section.uses_whole_object_serialization)
+			{
+				section.to_json(section_json);
+			}
+			else
+			{
+				section_json = nlohmann::json::object();
+				for (const auto& [parameter_name, parameter] : section.parameters)
+				{
+					nlohmann::json parameter_json;
+					parameter.to_json(parameter_json);
+					section_json[parameter_name] = std::move(parameter_json);
+				}
+			}
+
 			json[name] = section_json;
 		}
 
@@ -72,7 +149,14 @@ namespace Untitled
 	{
 		for (auto& [name, section] : sections)
 		{
-			section.set_defaults();
+			if (section.set_defaults)
+				section.set_defaults();
+
+			for (auto& [parameter_name, parameter] : section.parameters)
+			{
+				if (parameter.has_default)
+					parameter.from_json(parameter.default_value);
+			}
 		}
 	}
 
@@ -80,7 +164,8 @@ namespace Untitled
 	{
 		for (auto& [name, section] : sections)
 		{
-			section.check_valid();
+			if (section.check_valid)
+				section.check_valid();
 		}
 	}
 
@@ -114,7 +199,7 @@ namespace Untitled
 		if (height < 480)
 			height = 480;
 
-		if (max_fps < 0)
+		if (max_fps < 30)
 			max_fps = 0;
 
 		if (static_cast<int>(mode) < 0 || static_cast<int>(mode) > 2)
