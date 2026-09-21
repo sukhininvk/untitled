@@ -46,6 +46,15 @@ namespace Untitled
 			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL: %s", SDL_GetError());
 			return false;
 		}
+
+		if (!preferences.Load())
+		{
+			preferences.SetDefaults();
+			if (!preferences.Save())
+			{
+				SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Failed to save default preferences: %s", SDL_GetError());
+			}
+		}
 		
 		if (!main_window.Create(preferences))
 		{
