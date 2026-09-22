@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(untitled)
 
+add_subdirectory(vendor/entt)
 add_subdirectory(vendor/json)
 add_subdirectory(vendor/SDL)
 
@@ -21,8 +22,9 @@ add_executable(untitled WIN32
 )
 
 target_compile_features(untitled PRIVATE cxx_std_20)
-target_link_libraries(untitled PUBLIC SDL3::SDL3)
+target_link_libraries(untitled PUBLIC EnTT::EnTT)
 target_link_libraries(untitled PUBLIC nlohmann_json::nlohmann_json)
+target_link_libraries(untitled PUBLIC SDL3::SDL3)
 target_include_directories(untitled PUBLIC include)
 
 add_custom_command(TARGET untitled POST_BUILD

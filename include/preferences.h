@@ -19,22 +19,12 @@ namespace Untitled
 		Fullscreen
 	};
 
-	enum class VSyncMode
-	{
-		Off,
-		On,
-		Half,
-		Adaptive
-	};
-
 	class VideoPreferences
 	{
 	public:
 		int width = 1280;
 		int height = 720;
 		DisplayMode mode = DisplayMode::Windowed;
-		int max_fps = 0; // 0 = unlimited, otherwise specify the max framerate
-		VSyncMode vsync = VSyncMode::On;
 
 		void SetDefaults();
 		void CheckValid();
