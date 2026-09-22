@@ -22,10 +22,10 @@ namespace Untitled
 		}
 
 		SDL_SetStringProperty(window_properties, SDL_PROP_WINDOW_CREATE_TITLE_STRING, WINDOW_TITLE);
-		SDL_SetNumberProperty(window_properties, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, preferences.display.width);
-		SDL_SetNumberProperty(window_properties, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, preferences.display.height);
+		SDL_SetNumberProperty(window_properties, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, preferences.video.width);
+		SDL_SetNumberProperty(window_properties, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, preferences.video.height);
 
-		switch (preferences.display.mode)
+		switch (preferences.video.mode)
 		{
 		case DisplayMode::Borderless:
 			SDL_SetBooleanProperty(window_properties, SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN, true);

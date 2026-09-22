@@ -27,7 +27,7 @@ namespace Untitled
 		Adaptive
 	};
 
-	class DisplayPreferences
+	class VideoPreferences
 	{
 	public:
 		int width = 1280;
@@ -87,7 +87,7 @@ namespace Untitled
 		void SetDefaults();
 		void CheckValid();
 
-		DisplayPreferences display;
+		VideoPreferences video;
 
 	private:
 		struct Parameter

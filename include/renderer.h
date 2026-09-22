@@ -1,8 +1,6 @@
 #ifndef UNTITLED_RENDERER_H
 #define UNTITLED_RENDERER_H
 
-#include "preferences.h"
-
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_properties.h>
 
@@ -17,7 +15,7 @@ namespace Untitled
 		Renderer(const Renderer&) = delete;
 		Renderer& operator=(const Renderer&) = delete;
 
-		bool Create(SDL_Window* window, const Preferences& preferences);
+		bool Create(SDL_Window* window);
 		void Destroy();
 
 		[[nodiscard]] SDL_Renderer* GetNativeHandle() const;

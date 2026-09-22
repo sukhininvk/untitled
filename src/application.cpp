@@ -61,7 +61,7 @@ namespace Untitled
 			return false;
 		}
 
-		if (!main_renderer.Create(main_window.GetNativeHandle(), preferences))
+		if (!main_renderer.Create(main_window.GetNativeHandle()))
 		{
 			return false;
 		}

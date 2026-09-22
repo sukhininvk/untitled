@@ -11,15 +11,13 @@ namespace Untitled
 	Preferences::Preferences()
 	{
 		RegisterCategory(
-			"display",
-			[this]() { display.SetDefaults(); },
-			[this]() { display.CheckValid(); });
+			"video",
+			[this]() { video.SetDefaults(); },
+			[this]() { video.CheckValid(); });
 
-		RegisterParameter("display", "width", display.width);
-		RegisterParameter("display", "height", display.height);
-		RegisterParameter("display", "mode", display.mode);
-		RegisterParameter("display", "max_fps", display.max_fps);
-		RegisterParameter("display", "vsync", display.vsync);
+		RegisterParameter("video", "width", video.width);
+		RegisterParameter("video", "height", video.height);
+		RegisterParameter("video", "mode", video.mode);
 	}
 
 	bool Preferences::RegisterCategory(
@@ -169,13 +167,11 @@ namespace Untitled
 		}
 	}
 
-	void DisplayPreferences::SetDefaults()
+	void VideoPreferences::SetDefaults()
 	{
 		width = 1280;
 		height = 720;
 		mode = DisplayMode::Fullscreen;
-		max_fps = 0;
-		vsync = VSyncMode::On;
 
 		const SDL_DisplayID display_id = SDL_GetPrimaryDisplay();
 
@@ -191,7 +187,7 @@ namespace Untitled
 		height = display_mode->h;
 	}
 
-	void DisplayPreferences::CheckValid()
+	void VideoPreferences::CheckValid()
 	{
 		if (width < 640)
 			width = 640;
@@ -204,28 +200,21 @@ namespace Untitled
 
 		if (static_cast<int>(mode) < 0 || static_cast<int>(mode) > 2)
 			mode = DisplayMode::Windowed;
-
-		if (static_cast<int>(vsync) < 0 || static_cast<int>(vsync) > 3)
-			vsync = VSyncMode::On;
 	}
 
-	void to_json(nlohmann::json& j, const DisplayPreferences& p)
+	void to_json(nlohmann::json& j, const VideoPreferences& p)
 	{
 		j = nlohmann::json{
 			{"width", p.width},
 			{"height", p.height},
-			{"mode", static_cast<int>(p.mode)},
-			{"max_fps", p.max_fps},
-			{"vsync", static_cast<int>(p.vsync)}
+			{"mode", static_cast<int>(p.mode)}
 		};
 	}
 
-	void from_json(const nlohmann::json& j, DisplayPreferences& p)
+	void from_json(const nlohmann::json& j, VideoPreferences& p)
 	{
 		j.at("width").get_to(p.width);
 		j.at("height").get_to(p.height);
 		p.mode = static_cast<DisplayMode>(j.at("mode").get<int>());
-		j.at("max_fps").get_to(p.max_fps);
-		p.vsync = static_cast<VSyncMode>(j.at("vsync").get<int>());
 	}
 }
